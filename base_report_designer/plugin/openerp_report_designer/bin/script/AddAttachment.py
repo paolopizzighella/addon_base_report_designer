@@ -158,7 +158,7 @@ class AddAttachment(unohelper.Base, XJobExecutor ):
 
         params = {
             'name': name,
-            'datas': base64.encodestring( data ),
+            'datas': base64.encodestring( data.encode('latin-1') ),
             'datas_fname': name,
             'res_model' : res_model,
             'res_id' : int(res_id),

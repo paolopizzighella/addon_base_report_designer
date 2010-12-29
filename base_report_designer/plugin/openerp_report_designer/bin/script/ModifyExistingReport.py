@@ -51,7 +51,6 @@ import unohelper
 import xmlrpclib
 import base64, tempfile
 
-
 from com.sun.star.task import XJobExecutor
 import os
 import sys
@@ -146,7 +145,7 @@ class ModifyExistingReport(unohelper.Base, XJobExecutor):
 
             filename = ( os.name == 'nt' and fp_win or fp_name )
             if res['report_sxw_content']:
-                write_data_to_file( filename, base64.decodestring(res['report_sxw_content']))
+                write_data_to_file(filename, res['report_sxw_content'].decode('base64'))
             url = "file:///%s" % filename
 
             arr=Array(makePropertyValue("MediaType","application/vnd.sun.xml.writer"),)

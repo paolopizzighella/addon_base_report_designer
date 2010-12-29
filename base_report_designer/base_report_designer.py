@@ -25,7 +25,6 @@ from StringIO import StringIO
 import base64
 import pooler
 import addons
-import sys
 
 class report_xml(osv.osv):
     _inherit = 'ir.actions.report.xml'
@@ -34,7 +33,7 @@ class report_xml(osv.osv):
         '''
         The use of this function is to get rml file from sxw file.
         '''
-        sxwval = StringIO(base64.decodestring(file_sxw))
+        sxwval = StringIO( file_sxw.decode('base64') )
         if file_type=='sxw':
             fp = open(addons.get_module_resource('base_report_designer','openerp_sxw2rml', 'normalized_oo2rml.xsl'),'rb')
         if file_type=='odt':
@@ -52,20 +51,25 @@ class report_xml(osv.osv):
         if file_type=='odt':
             fp = open(addons.get_module_resource('base_report_designer','openerp_sxw2rml', 'normalized_odt2rml.xsl'),'rb')
         report = pool.get('ir.actions.report.xml').write(cr, uid, [report_id], {
-            'report_sxw_content': base64.decodestring(file_sxw), 
+            'report_sxw_content': file_sxw.decode('base64'), 
+            #'report_sxw_content': base64.decodestring(file_sxw), 
             'report_rml_content': str(sxw2rml(sxwval, xsl=fp.read())), 
         })
         pool.get('ir.actions.report.xml').register_all(cr)
         return True
 
     def report_get(self, cr, uid, report_id, context=None):
+        
         report = self.browse(cr, uid, report_id, context=context)
-        reload(sys)
-        sys.setdefaultencoding( "latin-1" )
+       
+        #convert unicode to str
+        tmp_str = report.report_sxw_content.encode('unicode_escape').decode('string_escape')
+        tmp_str_2 = report.report_rml_content.encode('unicode_escape').decode('string_escape')
+
         return {
             'file_type' : report.report_type,
-            'report_sxw_content': report.report_sxw_content and base64.encodestring(report.report_sxw_content) or False,
-            'report_rml_content': report.report_rml_content and base64.encodestring(report.report_rml_content) or False
+            'report_sxw_content': tmp_str and tmp_str.encode('base64') or False,
+            'report_rml_content': tmp_str_2 and tmp_str_2.encode('base64') or False
         }
 
 
