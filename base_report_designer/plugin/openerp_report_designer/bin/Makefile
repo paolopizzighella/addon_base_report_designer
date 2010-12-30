@@ -33,10 +33,10 @@ pack: clean create
 	zip $(ZIP_FILE) `find package/ | grep -v svn` 
 	
 install:
-	bash unopkg add -v $(ZIP_FILE)
+	sh /opt/openoffice.org3/program/unopkg add -v $(ZIP_FILE)
 	
 uninstall:
-	bash unopkg remove -v  $(ZIP_FILE)
+	sh /opt/openoffice.org3/program/unopkg remove -v  $(ZIP_FILE)
 
 clean:
 	rm -f $(ZIP_FILE)

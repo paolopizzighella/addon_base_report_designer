@@ -99,7 +99,7 @@ class ExportToRML( unohelper.Base, XJobExecutor ):
         self.password = passwd
         try:
 
-            res = self.sock.execute(database, uid, self.password, 'ir.actions.report.xml', 'sxwtorml', data.encode('base64'), file_type)
+            res = self.sock.execute(database, uid, self.password, 'ir.actions.report.xml', 'sxwtorml',base64.encodestring(data),file_type)
             if res['report_rml_content']:
                 write_data_to_file( get_absolute_file_path( filename[7:] ), res['report_rml_content'] )
         except Exception,e:

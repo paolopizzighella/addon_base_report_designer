@@ -99,7 +99,7 @@ class About(unohelper.Base, XJobExecutor):
         oLabelFooter.Model.Align = 1
         oLabelFooter.Model.FontRelief = 1
         oLabelFooter.Model.MultiLine = True
-        sMessage = "OpenERP Report Designer v1.0.11-knowhow \nCopyright 2007-TODAY Tiny sprl \nThis product is free software, under the GNU Affero General Public License.\nutf-8 bring.out\n"
+        sMessage = "OpenERP Report Designer v1.0 \nCopyright 2007-TODAY Tiny sprl \nThis product is free software, under the GNU Affero General Public License."
         oLabelFooter.Text = sMessage
 
         self.win.doModalDialog("",None)
